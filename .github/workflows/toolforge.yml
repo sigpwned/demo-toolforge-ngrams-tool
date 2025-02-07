@@ -1,0 +1,22 @@
+name: toolforge
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Login to ToolForge Docker
+        uses: toolforgeio-actions/toolforge-docker-login@v1
+        with:
+          api-key: ${{ secrets.TOOLFORGE_API_KEY }}
+      - name: Release
+        run: make release
